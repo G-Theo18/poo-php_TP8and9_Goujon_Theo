@@ -36,21 +36,42 @@ class Encounter
     }
 }
 
-$greg = 400;
-$jade = 800;
+class Player
+{
+    private int $level;
+
+    public function __construct(int $level)
+    {
+        $this->level = $level;
+    }
+
+    public function getLevel(): int
+    {
+        return $this->level;
+    }
+
+    public function setLevel(int $level): void
+    {
+        $this->level = $level;
+    }
+}
+
+$greg = new Player(400);
+$jade = new Player(800);
 
 echo sprintf(
     'Greg a %.2f%% de chance de gagner face à Jade',
-    Encounter::probabilityAgainst($greg, $jade) * 100
+    Encounter::probabilityAgainst($greg->getLevel(), $jade->getLevel()) * 100
 ) . PHP_EOL;
 
-Encounter::setNewLevel($greg, $jade, Encounter::RESULT_WINNER);
-Encounter::setNewLevel($jade, $greg, Encounter::RESULT_LOSER);
+Encounter::setNewLevel($greg->getLevel(), $jade->getLevel(), Encounter::RESULT_WINNER);
+Encounter::setNewLevel($jade->getLevel(), $greg->getLevel(), Encounter::RESULT_LOSER);
+
+$greg->setLevel($greg->getLevel());
+$jade->setLevel($jade->getLevel());
 
 echo sprintf(
     'Les niveaux des joueurs ont évolué vers %s pour Greg et %s pour Jade',
-    $greg,
-    $jade
+    $greg->getLevel(),
+    $jade->getLevel()
 );
-
-
